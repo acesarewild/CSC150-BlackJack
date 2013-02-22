@@ -12,6 +12,7 @@ public class Dealer {
 		
 		deck.multipleCards(52);
 		deck.numberLeft();
+		System.out.println(deck.dealDeckImg());
 	}
 
 }
