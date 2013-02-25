@@ -3,10 +3,11 @@ import java.util.Arrays;
 
 public class DeckOfCards {
 	private Card[] deck;
+	private String[] deckImg;
 	private int counter;
 	private final int TOTAL_CARDS = 52;
-	private String deckImage;
-	
+	private String card;
+
 	public DeckOfCards()
 	{
 		deck = new Card[TOTAL_CARDS];
@@ -19,6 +20,7 @@ public class DeckOfCards {
 				count++;
 			}
 		}
+		deckImg = createDeckImg();
 	}
 	//---------------------------------------------------------------
 	//  Creates a shuffle object and runs shuffleArray on deck object
@@ -33,7 +35,7 @@ public class DeckOfCards {
 		for (int i = 0; i < x; i++)
 		{
 			dealCard();
-			System.out.println(deckImage);
+			System.out.println(card);
 		}
 	}
 	//---------------------------------------------------------------
@@ -41,11 +43,11 @@ public class DeckOfCards {
 	//---------------------------------------------------------------
 	public String dealCard()
 	{
-			deckImage = deck[counter] + ".png";
-			deck[counter] = null;
-			counter++;
+		card = deck[counter].toString();
+		deck[counter] = null;
+		counter++;
 
-			return deckImage;
+		return card;
 	}
 	//---------------------------------------------------------------
 	//  Prints out the full deck
@@ -62,5 +64,32 @@ public class DeckOfCards {
 	{
 		int numberLeft = TOTAL_CARDS - counter;
 		System.out.println("You have " + numberLeft + " cards left.");
+	}
+
+	public String[] createDeckImg()
+	{
+		deckImg = new String[TOTAL_CARDS+2];
+		
+		int count = 0;
+		for (int j = 0; j < Card.suit.length; j++)
+		{
+			for (int i = 0; i < Card.face.length; i++)
+			{
+				deckImg[count] = "classic-cards/" + Card.face[i] + Card.suit[j] + ".png";
+				count++;
+			}
+		}
+		deckImg[deckImg.length-2] = "classic-cards/BackHorizontal.png";
+		deckImg[deckImg.length-1] = "classic-cards/BackVertical.png";
+
+		return deckImg;
+	}
+	
+	//---------------------------------------------------------------
+	//  Prints out the full deck image paths
+	//---------------------------------------------------------------
+	public String dealDeckImg()
+	{		
+		return Arrays.toString(deckImg);
 	}
 }
