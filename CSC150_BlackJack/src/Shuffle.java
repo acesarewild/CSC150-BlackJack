@@ -16,6 +16,7 @@ public class Shuffle
 	{
 		generator = new Random();
 	}
+	
 	//-----------------------------------------------------
 	//  @param array
 	//  NOTE: This method alters this argument
