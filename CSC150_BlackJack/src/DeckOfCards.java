@@ -92,4 +92,20 @@ public class DeckOfCards {
 	{		
 		return Arrays.toString(deckImg);
 	}
+	
+	public String findCardImg(String card)
+	{
+		boolean cardFound = false;
+		int index = 0;
+		
+		while(!cardFound)
+		{
+			cardFound = (deckImg[index].indexOf(card) >= 0);
+			
+			if(!cardFound)
+				index++;
+		}
+		
+		return deckImg[index];
+	}
 }
