@@ -1,7 +1,8 @@
 import java.util.Arrays;
 
 
-public class DeckOfCards {
+public class DeckOfCards 
+{
 	private Card[] deck;
 	private String[] deckImg;
 	private int counter;
@@ -22,6 +23,7 @@ public class DeckOfCards {
 		}
 		deckImg = createDeckImg();
 	}
+	
 	//---------------------------------------------------------------
 	//  Creates a shuffle object and runs shuffleArray on deck object
 	//---------------------------------------------------------------
@@ -38,6 +40,7 @@ public class DeckOfCards {
 			System.out.println(card);
 		}
 	}
+	
 	//---------------------------------------------------------------
 	//  Takes in the amount cards you want dealt
 	//---------------------------------------------------------------
@@ -49,6 +52,7 @@ public class DeckOfCards {
 
 		return card;
 	}
+	
 	//---------------------------------------------------------------
 	//  Prints out the full deck
 	//---------------------------------------------------------------
@@ -56,6 +60,7 @@ public class DeckOfCards {
 	{		
 		return Arrays.toString(deck);
 	}
+	
 	//---------------------------------------------------------------
 	//  Takes total amount of cards, subtracts the counter and
 	//  prints out to the console
@@ -66,9 +71,12 @@ public class DeckOfCards {
 		System.out.println("You have " + numberLeft + " cards left.");
 	}
 
-	public String[] createDeckImg()
+	//----------------------------------------------------------------
+	// creates the array with img paths
+	//----------------------------------------------------------------
+	private String[] createDeckImg()
 	{
-		deckImg = new String[TOTAL_CARDS+2];
+		deckImg = new String[TOTAL_CARDS+1];
 		
 		int count = 0;
 		for (int j = 0; j < Card.suit.length; j++)
@@ -79,7 +87,6 @@ public class DeckOfCards {
 				count++;
 			}
 		}
-		deckImg[deckImg.length-2] = "classic-cards/BackHorizontal.png";
 		deckImg[deckImg.length-1] = "classic-cards/BackVertical.png";
 
 		return deckImg;
@@ -93,6 +100,9 @@ public class DeckOfCards {
 		return Arrays.toString(deckImg);
 	}
 	
+	//----------------------------------------------------------------
+	// Finds the img path that corresponds with the card
+	//----------------------------------------------------------------
 	public String findCardImg(String card)
 	{
 		boolean cardFound = false;
@@ -106,6 +116,15 @@ public class DeckOfCards {
 				index++;
 		}
 		
+		return deckImg[index];
+	}
+	
+	//-------------------------------------------------------------------
+	// Finds the img path at a specific index
+	// (may be removed and only need findCardImg, if string to get back is available)
+	//-------------------------------------------------------------------
+	public String getCardImg(int index)
+	{
 		return deckImg[index];
 	}
 }
