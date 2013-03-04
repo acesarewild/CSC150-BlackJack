@@ -16,17 +16,24 @@ public class PANEL extends JPanel
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
 	public JButton bet = new JButton("Bet"), increaseBet = new JButton("Increase Bet"), decreaseBet = new JButton("Decrease Bet"), deal = new JButton("Deal"), hit = new JButton("Hit"), stay = new JButton("Stay"), surrender = new JButton("Surrender");
 	public DeckOfCards deck = new DeckOfCards();
-	public JLabel dealerCard1 = new JLabel(new ImageIcon()), dealerCard2 = new JLabel(new ImageIcon()), playerCard1 = new JLabel(new ImageIcon()), playerCard2 = new JLabel(new ImageIcon()), playerCard3 = new JLabel(new ImageIcon()), player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+dealerWorth), playerValue = new JLabel("Player's Worth: "+playerWorth), pot = new JLabel("Current pot value of "+potValue);
+	public JLabel player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+dealerWorth), playerValue = new JLabel("Player's Worth: "+playerWorth), pot = new JLabel("Current pot value of "+potValue);
+	final int MAX_POSSIBLE_HAND = 12;
+	public JLabel dealerCard[] = new JLabel[MAX_POSSIBLE_HAND];
+	public JLabel playerCard[] = new JLabel[MAX_POSSIBLE_HAND];
+	public int dealerIndex = 0, playerIndex = 0;
+	
 	public Listener listener = new Listener();
 	
 	public PANEL()
 	{
+		deck.shuffleDeck();
 		setLayout(null);
 		addGameItems();
 		setItemBounds();
 		addListener();
 		setPreferredSize(new Dimension(XD,YD));
 		setBackground(boardC);
+		betValue.setOpaque(true);
 	}
 	
 	public void addGameItems()//adds the players labels and the buttons to the window
@@ -36,12 +43,18 @@ public class PANEL extends JPanel
 		add(player);
 		add(playerValue);
 		
-		add(dealerCard2);
-		add(dealerCard1);
-
-		add(playerCard3);
-		add(playerCard2);
-		add(playerCard1);
+		for(int i = 0; i < dealerCard.length; i++)
+		{
+			dealerCard[i] = new JLabel(new ImageIcon());
+			add(dealerCard[i]);
+		}
+			
+		
+		for(int i = playerCard.length-1; i >= 0; i--)
+		{
+			playerCard[i] = new JLabel(new ImageIcon());
+			add(playerCard[i]);
+		}
 		
 //		add(comp1);
 //		add(comp2);
@@ -75,11 +88,21 @@ public class PANEL extends JPanel
 		player.setBounds(centerX, YD/4*3, playersButtonWidth, itemHeight);
 		playerValue.setBounds(playersX, YD/4*3+20, valueButtonWidth, itemHeight);
 		
-		dealerCard1.setBounds(centerX-40, 100, cardWidth, cardHeight);
-		dealerCard2.setBounds(centerX-20, 100, cardWidth, cardHeight);
-		playerCard1.setBounds(centerX-40, 400, cardWidth, cardHeight);
-		playerCard2.setBounds(centerX-20, 400, cardWidth, cardHeight);
-		playerCard3.setBounds(centerX, 400, cardWidth, cardHeight);
+		for(int i = 0; i < dealerCard.length; i++)
+		{
+			if(i == 0)
+				dealerCard[i].setBounds(centerX-40, 100, cardWidth, cardHeight);
+			else
+				dealerCard[i].setBounds(((int)dealerCard[i-1].getBounds().getX()+20), ((int)dealerCard[i-1].getBounds().getY()), cardWidth, cardHeight);
+		}
+		
+		for(int i = 0; i < playerCard.length; i++)
+		{
+			if(i == 0)
+				playerCard[i].setBounds(centerX-40, 400, cardWidth, cardHeight);
+			else
+				playerCard[i].setBounds(((int)playerCard[i-1].getBounds().getX()+20), ((int)playerCard[i-1].getBounds().getY()), cardWidth, cardHeight);
+		}
 		
 //		comp1.setBounds(5, YD/2-50, playersButtonWidth, itemHeight);
 //		comp2.setBounds(XD-60, YD/2-50, playersButtonWidth, itemHeight);
@@ -99,19 +122,35 @@ public class PANEL extends JPanel
 		{
 			if(e.getSource() == increaseBet)
 			{
-				betAmount += 20;
+				betAmount += 5;
 				betValue.setText("Bet: "+betAmount);
 			}
-			else if(e.getSource() == deal)
+			if(e.getSource() == decreaseBet)
 			{
-				dealerCard1.setIcon(new ImageIcon(deck.getCardImg(gen.nextInt(52))));
-				dealerCard2.setIcon(new ImageIcon(deck.getCardImg(52)));
-				playerCard1.setIcon(new ImageIcon(deck.getCardImg(gen.nextInt(52))));
-				playerCard2.setIcon(new ImageIcon(deck.getCardImg(gen.nextInt(52))));
+				betAmount -= 5;
+				betValue.setText("Bet: "+betAmount);
+			}
+			else if(e.getSource() == deal && deal.isEnabled())
+			{
+				dealerCard[dealerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
+				dealerIndex++;
+				
+				String hiddenCard = deck.dealCard();
+				dealerCard[dealerIndex].setIcon(new ImageIcon(deck.findCardImg("Back")));
+				dealerIndex++;
+				
+				playerCard[playerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
+				playerIndex++;
+				
+				playerCard[playerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
+				playerIndex++;
+				
+				deal.setEnabled(false);
 			}
 			else if(e.getSource() == hit)
 			{
-				playerCard3.setIcon(new ImageIcon(deck.getCardImg(gen.nextInt(52))));
+				playerCard[playerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
+				playerIndex++;
 			}
 		}
 		public void mouseEntered(MouseEvent e) {}
