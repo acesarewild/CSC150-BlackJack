@@ -118,13 +118,4 @@ public class DeckOfCards
 		
 		return deckImg[index];
 	}
-	
-	//-------------------------------------------------------------------
-	// Finds the img path at a specific index
-	// (may be removed and only need findCardImg, if string to get back is available)
-	//-------------------------------------------------------------------
-	public String getCardImg(int index)
-	{
-		return deckImg[index];
-	}
 }
