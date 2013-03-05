@@ -3,11 +3,16 @@ public class GamePlay
 {
 	public boolean userWins;
 	
+	public GamePlay()
+	{
+		User player1 = new User();
+		Dealer dealer1 = new Dealer();
+	}
+	
 	public boolean playGame()
 	{
 		DeckOfCards deck;
-		BlackjackHand dealerCards;
-		BlackjackHand userCards;
+		BlackjackHand dealerCards, userCards;
 		
 		 deck = new DeckOfCards();
          dealerCards = new BlackjackHand();
