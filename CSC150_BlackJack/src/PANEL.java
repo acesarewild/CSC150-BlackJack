@@ -10,7 +10,7 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class PANEL extends JPanel
 {
-	public Color boardC = new Color(0,128,0,200);
+	public Color boardC = new Color(0,128,0);
 	public Random gen = new Random();
     public int XD = 1000, YD = 700, betAmount = 0, dealerWorth = 0, playerWorth = 0, potValue = 0;
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
@@ -125,11 +125,13 @@ public class PANEL extends JPanel
 				betAmount += 5;
 				betValue.setText("Bet: "+betAmount);
 			}
+			
 			if(e.getSource() == decreaseBet)
 			{
 				betAmount -= 5;
 				betValue.setText("Bet: "+betAmount);
 			}
+			
 			else if(e.getSource() == deal && deal.isEnabled())
 			{
 				dealerCard[dealerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
@@ -147,6 +149,7 @@ public class PANEL extends JPanel
 				
 				deal.setEnabled(false);
 			}
+			
 			else if(e.getSource() == hit)
 			{
 				playerCard[playerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
