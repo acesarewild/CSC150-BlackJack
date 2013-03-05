@@ -1,10 +1,16 @@
-import java.util.Arrays;
 
+public class Dealer extends Player
+{
 
-public class Dealer {
-
-	/**
-	 * @param args
-	 */
+	public Dealer()
+	{
+		this.name = "Dealer";
+	}
+	
+	@Override
+	public int betting() 
+	{
+		return 0;
+	}
 
 }
