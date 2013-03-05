@@ -4,13 +4,20 @@
  * Feb 27, 2013
  */
 public class User extends Player
-{
-	public int wallet = 100;
-	public int bet;
+{	
 	public boolean userWins;
-	public 
-	
 
+	public User()
+	{
+
+	}
+
+	public User(String name)
+	{
+
+	}
+
+	@Override
 	public int betting()
 	{
 		while( bet < 0 || bet > wallet)
@@ -24,15 +31,40 @@ public class User extends Player
 				wallet = wallet - bet;
 			if(wallet == 0)
 				System.out.println(" Your out of money, better luck next time!");
-				break;				
+			break;				
 		}
-		
+
 		return wallet;
-			
+
 	}
-	
+
 	public boolean playGame()
 	{
+		DeckOfCards deck;
+		BlackjackHand dealerCards;
+		BlackjackHand userCards;
+
+		deck = new DeckOfCards();
+		dealerCards = new BlackjackHand();
+		userCards = new BlackjackHand();
+
+
+		deck.shuffleDeck();
+		dealerCards.addCard( deck.dealCard());
+		dealerCards.addCard( deck.dealCard());
+		userCards.addCard( deck.dealCard());
+		userCards.addCard( deck.dealCard());
+
+		if (dealerCards.getBlackjackValue() == 21)
+			return false;
+
+		if (userCards.getBlackjackValue() == 21)
+			return true;
+
 		
+
+
+
+		return true;
 	}
 }
