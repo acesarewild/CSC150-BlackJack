@@ -8,5 +8,4 @@ public abstract class Player
 	public int bet;	
 	public String name;
 	public abstract int betting();
-	
 }
