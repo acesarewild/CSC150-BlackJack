@@ -8,7 +8,7 @@ public class PANEL extends JPanel
 {
 	public Color boardC = new Color(60,163,63);
 	public DeckOfCards deck = new DeckOfCards();
-    	public int XD = 1000, YD = 700, betAmount = 0, dealerWorth = 0, playerWorth = 0, potValue = 0, dealerIndex = 0, playerIndex = 0;
+    public int XD = 1000, YD = 700, betAmount = 0, dealerWorth = 0, playerWorth = 0, potValue = 0, dealerIndex = 0, playerIndex = 0;
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
 	public JButton bet = new JButton("Bet"), increaseBet = new JButton("Increase Bet"), decreaseBet = new JButton("Decrease Bet"), deal = new JButton("Deal"), hit = new JButton("Hit"), stay = new JButton("Stay"), surrender = new JButton("Surrender");
 	public JLabel player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+dealerWorth), playerValue = new JLabel("Player's Worth: "+playerWorth), pot = new JLabel("Current pot value of "+potValue);
@@ -169,6 +169,8 @@ public class PANEL extends JPanel
 				dealerIndex = 0;
 				enableGame(false);
 				deal.setEnabled(true);
+				betAmount = 0;
+				betValue.setText("Bet: "+betAmount);
 			}
 		}
 		public void mouseEntered(MouseEvent e) {}
@@ -177,4 +179,3 @@ public class PANEL extends JPanel
 		public void mouseReleased(MouseEvent e) {}
 	}
 }
-	
