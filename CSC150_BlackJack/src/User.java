@@ -6,7 +6,8 @@
 public class User extends Player
 {	
 	public boolean userWins;
-	private int handTotal = 0, numOfCards = 0;;
+	private int handTotal = 0, numOfCards = 0;
+	int wallet = 100;
 	private String[] hand;
 
 	public User()
@@ -26,7 +27,7 @@ public class User extends Player
 		{
 			if(bet==0)
 				break;
-			userWins=playGame();
+//			userWins=playGame();
 			if(userWins)
 				wallet = wallet + bet;
 			else
@@ -40,35 +41,35 @@ public class User extends Player
 
 	}
 
-	public boolean playGame()
-	{
-		DeckOfCards deck;
-		BlackjackHand dealerCards;
-		BlackjackHand userCards;
-
-		deck = new DeckOfCards();
-		dealerCards = new BlackjackHand();
-		userCards = new BlackjackHand();
-
-
-		deck.shuffleDeck();
-		dealerCards.addCard( deck.dealCard());
-		dealerCards.addCard( deck.dealCard());
-		userCards.addCard( deck.dealCard());
-		userCards.addCard( deck.dealCard());
-
-		if (dealerCards.getBlackjackValue() == 21)
-			return false;
-
-		if (userCards.getBlackjackValue() == 21)
-			return true;
-
-
-
-
-
-		return true;
-	}
+//	public boolean playGame()
+//	{
+//		DeckOfCards deck;
+////		BlackjackHand dealerCards;
+////		BlackjackHand userCards;
+//
+//		deck = new DeckOfCards();
+////		dealerCards = new BlackjackHand();
+////		userCards = new BlackjackHand();
+//
+//
+//		deck.shuffleDeck();
+//		dealerCards.addCard( deck.dealCard());
+//		dealerCards.addCard( deck.dealCard());
+//		userCards.addCard( deck.dealCard());
+//		userCards.addCard( deck.dealCard());
+//
+//		if (dealerCards.getBlackjackValue() == 21)
+//			return false;
+//
+//		if (userCards.getBlackjackValue() == 21)
+//			return true;
+//
+//
+//
+//
+//
+//		return true;
+//	}
 
 	private int findCardValue(String card)
 	{
@@ -112,8 +113,8 @@ public class User extends Player
 		}
 	}
 
-	public String[] getHand() 
+	public String getHand(int i) 
 	{
-		return hand;
+		return hand[i];
 	}
 }
