@@ -63,18 +63,18 @@ public class User extends Player
 		if (userCards.getBlackjackValue() == 21)
 			return true;
 
-		
+
 
 
 
 		return true;
 	}
-	
+
 	private int findCardValue(String card)
 	{
 		//char value = card.charAt(1);
 		String value = card.substring(0,2);
-		
+
 		if(value.startsWith("10") || value.startsWith("J") || value.startsWith("Q") || value.startsWith("K"))
 			return 10;
 		if(value.startsWith("A"))
@@ -91,7 +91,7 @@ public class User extends Player
 	public int getHandTotal(String[] hand) 
 	{
 		handTotal = 0;
-		
+
 		for(int i = 0; i < hand.length; i++)
 		{
 			if(hand[i] == null)
@@ -99,7 +99,21 @@ public class User extends Player
 			else
 				handTotal += findCardValue(hand[i]);
 		}
-		
+
 		return handTotal;
+	}
+
+	public void setHand(String card)
+	{
+		if(numOfCards != hand.length)
+		{
+			hand[numOfCards] = card;
+			numOfCards++;
+		}
+	}
+
+	public String[] getHand() 
+	{
+		return hand;
 	}
 }

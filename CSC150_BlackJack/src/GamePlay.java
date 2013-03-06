@@ -2,11 +2,16 @@
 public class GamePlay 
 {
 	public boolean userWins;
+	public DeckOfCards deck;
+	public User player;
+	public Dealer dealer;
 	
 	public GamePlay()
 	{
-		User player1 = new User();
-		Dealer dealer1 = new Dealer();
+		player = new User();
+		dealer = new Dealer();
+		deck = new DeckOfCards();
+		deck.shuffleDeck();
 	}
 	
 	public boolean playGame()
