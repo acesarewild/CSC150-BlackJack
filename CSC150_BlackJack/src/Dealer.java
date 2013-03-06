@@ -1,25 +1,81 @@
-
+/**
+ * @author amartinez
+ *User.java
+ * Feb 27, 2013
+ */
 public class Dealer extends Player
-{
-	private int handTotal = 0;
+{	
+	public boolean userWins;
+	private int handTotal = 0, numOfCards = 0;
+	int wallet = 1000;
 	private String[] hand;
 
 	public Dealer()
 	{
-		this.name = "Dealer";
+		hand = new String[12];
 	}
-	
-	@Override
-	public int betting() 
+
+	public Dealer(String name)
 	{
-		return 0;
+
 	}
-	
+
+	@Override
+	public int betting()
+	{
+		while( bet < 0 || bet > wallet)
+		{
+			if(bet==0)
+				break;
+//			userWins=playGame();
+			if(userWins)
+				wallet = wallet + bet;
+			else
+				wallet = wallet - bet;
+			if(wallet == 0)
+				System.out.println(" Your out of money, better luck next time!");
+			break;				
+		}
+
+		return wallet;
+
+	}
+
+//	public boolean playGame()
+//	{
+//		DeckOfCards deck;
+////		BlackjackHand dealerCards;
+////		BlackjackHand userCards;
+//
+//		deck = new DeckOfCards();
+////		dealerCards = new BlackjackHand();
+////		userCards = new BlackjackHand();
+//
+//
+//		deck.shuffleDeck();
+//		dealerCards.addCard( deck.dealCard());
+//		dealerCards.addCard( deck.dealCard());
+//		userCards.addCard( deck.dealCard());
+//		userCards.addCard( deck.dealCard());
+//
+//		if (dealerCards.getBlackjackValue() == 21)
+//			return false;
+//
+//		if (userCards.getBlackjackValue() == 21)
+//			return true;
+//
+//
+//
+//
+//
+//		return true;
+//	}
+
 	private int findCardValue(String card)
 	{
 		//char value = card.charAt(1);
 		String value = card.substring(0,2);
-		
+
 		if(value.startsWith("10") || value.startsWith("J") || value.startsWith("Q") || value.startsWith("K"))
 			return 10;
 		if(value.startsWith("A"))
@@ -36,7 +92,7 @@ public class Dealer extends Player
 	public int getHandTotal(String[] hand) 
 	{
 		handTotal = 0;
-		
+
 		for(int i = 0; i < hand.length; i++)
 		{
 			if(hand[i] == null)
@@ -44,8 +100,21 @@ public class Dealer extends Player
 			else
 				handTotal += findCardValue(hand[i]);
 		}
-		
+
 		return handTotal;
 	}
 
+	public void setHand(String card)
+	{
+		if(numOfCards != hand.length)
+		{
+			hand[numOfCards] = card;
+			numOfCards++;
+		}
+	}
+
+	public String getHand(int i) 
+	{
+		return hand[i];
+	}
 }
