@@ -1,27 +1,19 @@
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Random;
-
 import javax.swing.*;
-
 
 @SuppressWarnings("serial")
 public class PANEL extends JPanel
 {
-	public Color boardC = new Color(0,128,0);
-	public Random gen = new Random();
-    public int XD = 1000, YD = 700, betAmount = 0, dealerWorth = 0, playerWorth = 0, potValue = 0;
+	public Color boardC = new Color(60,163,63);
+	public DeckOfCards deck = new DeckOfCards();
+    public int XD = 1000, YD = 700, betAmount = 0, dealerWorth = 0, playerWorth = 0, potValue = 0, dealerIndex = 0, playerIndex = 0;
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
 	public JButton bet = new JButton("Bet"), increaseBet = new JButton("Increase Bet"), decreaseBet = new JButton("Decrease Bet"), deal = new JButton("Deal"), hit = new JButton("Hit"), stay = new JButton("Stay"), surrender = new JButton("Surrender");
-	public DeckOfCards deck = new DeckOfCards();
 	public JLabel player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+dealerWorth), playerValue = new JLabel("Player's Worth: "+playerWorth), pot = new JLabel("Current pot value of "+potValue);
-	final int MAX_POSSIBLE_HAND = 12;
-	public JLabel dealerCard[] = new JLabel[MAX_POSSIBLE_HAND];
-	public JLabel playerCard[] = new JLabel[MAX_POSSIBLE_HAND];
-	public int dealerIndex = 0, playerIndex = 0;
-	
+	public final int MAX_POSSIBLE_HAND = 12;
+	public JLabel dealerCard[] = new JLabel[MAX_POSSIBLE_HAND], playerCard[] = new JLabel[MAX_POSSIBLE_HAND];
 	public Listener listener = new Listener();
 	
 	public PANEL()
@@ -34,6 +26,7 @@ public class PANEL extends JPanel
 		setPreferredSize(new Dimension(XD,YD));
 		setBackground(boardC);
 		betValue.setOpaque(true);
+		enableGame(false);
 	}
 	
 	public void addGameItems()//adds the players labels and the buttons to the window
@@ -43,13 +36,12 @@ public class PANEL extends JPanel
 		add(player);
 		add(playerValue);
 		
-		for(int i = 0; i < dealerCard.length; i++)
+		for(int i = dealerCard.length-1; i >= 0; i--)
 		{
 			dealerCard[i] = new JLabel(new ImageIcon());
 			add(dealerCard[i]);
 		}
 			
-		
 		for(int i = playerCard.length-1; i >= 0; i--)
 		{
 			playerCard[i] = new JLabel(new ImageIcon());
@@ -116,6 +108,15 @@ public class PANEL extends JPanel
 		surrender.setBounds(XD/2+10, bottomButton, sButtonWidth, itemHeight);
 	}
 	
+	public void enableGame(boolean g)
+	{
+		hit.setEnabled(g);
+		bet.setEnabled(g);
+		increaseBet.setEnabled(g);
+		decreaseBet.setEnabled(g);
+		stay.setEnabled(g);
+	}
+	
 	private class Listener implements MouseListener
 	{
 		public void mouseClicked(MouseEvent e)
@@ -125,19 +126,17 @@ public class PANEL extends JPanel
 				betAmount += 5;
 				betValue.setText("Bet: "+betAmount);
 			}
-			
 			if(e.getSource() == decreaseBet)
 			{
 				betAmount -= 5;
 				betValue.setText("Bet: "+betAmount);
 			}
-			
 			else if(e.getSource() == deal && deal.isEnabled())
 			{
-				dealerCard[dealerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
+				String card1 = deck.dealCard();
+				dealerCard[dealerIndex].setIcon(new ImageIcon(deck.findCardImg(card1)));
 				dealerIndex++;
 				
-				String hiddenCard = deck.dealCard();
 				dealerCard[dealerIndex].setIcon(new ImageIcon(deck.findCardImg("Back")));
 				dealerIndex++;
 				
@@ -147,13 +146,30 @@ public class PANEL extends JPanel
 				playerCard[playerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
 				playerIndex++;
 				
+				enableGame(true);
 				deal.setEnabled(false);
 			}
-			
-			else if(e.getSource() == hit)
+			else if(e.getSource() == hit && hit.isEnabled() && playerIndex <= playerCard.length-1)
 			{
 				playerCard[playerIndex].setIcon(new ImageIcon(deck.findCardImg(deck.dealCard())));
 				playerIndex++;
+			}
+			else if (e.getSource() == surrender)
+			{
+				for(int i = 0; i<playerCard.length; i++)
+				{
+					playerCard[i].setIcon(new ImageIcon());
+				}
+				for(int i = 0; i<dealerCard.length; i++)
+				{
+					dealerCard[i].setIcon(new ImageIcon());
+				}
+				playerIndex = 0;
+				dealerIndex = 0;
+				enableGame(false);
+				deal.setEnabled(true);
+				betAmount = 0;
+				betValue.setText("Bet: "+betAmount);
 			}
 		}
 		public void mouseEntered(MouseEvent e) {}
@@ -161,4 +177,4 @@ public class PANEL extends JPanel
 		public void mousePressed(MouseEvent e) {}
 		public void mouseReleased(MouseEvent e) {}
 	}
-}
+}	
