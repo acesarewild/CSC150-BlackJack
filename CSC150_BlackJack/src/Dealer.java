@@ -70,6 +70,8 @@ public class Dealer extends Player
 			else
 				handTotal += findCardValue(hand[i]);
 		}
+		
+		softSeventeen();
 
 		return handTotal;
 	}
@@ -102,7 +104,7 @@ public class Dealer extends Player
 		this.wallet = wallet;
 	}
 	
-	public void softSeventeen()
+	private void softSeventeen()
 	{
 		if(getHandTotal(hand) >= 17)
 		{
@@ -114,5 +116,10 @@ public class Dealer extends Player
 					handTotal -= 10;
 			}
 		}
+	}
+
+	public String[] getHand() 
+	{
+		return hand;
 	}
 }
