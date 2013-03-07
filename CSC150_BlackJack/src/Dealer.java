@@ -7,7 +7,7 @@ public class Dealer extends Player
 {	
 	public boolean userWins;
 	private int handTotal = 0, numOfCards = 0;
-	int wallet = 1000;
+	private int wallet = 1000;
 	private String[] hand;
 
 	public Dealer()
@@ -23,21 +23,21 @@ public class Dealer extends Player
 	@Override
 	public int betting()
 	{
-		while( bet < 0 || bet > wallet)
+		while( bet < 0 || bet > getWallet())
 		{
 			if(bet==0)
 				break;
 //			userWins=playGame();
 			if(userWins)
-				wallet = wallet + bet;
+				setWallet(getWallet() + bet);
 			else
-				wallet = wallet - bet;
-			if(wallet == 0)
+				setWallet(getWallet() - bet);
+			if(getWallet() == 0)
 				System.out.println(" Your out of money, better luck next time!");
 			break;				
 		}
 
-		return wallet;
+		return getWallet();
 
 	}
 
@@ -116,5 +116,19 @@ public class Dealer extends Player
 	public String getHand(int i) 
 	{
 		return hand[i];
+	}
+	
+	public void resetHand()
+	{
+		hand = new String[12];
+		numOfCards = 0;
+	}
+
+	public int getWallet() {
+		return wallet;
+	}
+
+	public void setWallet(int wallet) {
+		this.wallet = wallet;
 	}
 }

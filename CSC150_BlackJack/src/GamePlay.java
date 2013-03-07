@@ -1,37 +1,44 @@
 
 public class GamePlay
 {
-public boolean userWins;
-public DeckOfCards deck;
-public User player;
-public Dealer dealer;
+	public boolean userTurn;
+	private DeckOfCards deck;
+	private User player;
+	private Dealer dealer;
 
-public GamePlay()
-{
-player = new User();
-dealer = new Dealer();
-deck = new DeckOfCards();
-deck.shuffleDeck();
-}
+	public GamePlay()
+	{
+		player = new User();
+		dealer = new Dealer();
+		deck = new DeckOfCards();
+		deck.shuffleDeck();
+	}
 
-public boolean playGame()
-{
-DeckOfCards deck;
-BlackjackHand dealerCards, userCards;
+	public DeckOfCards getDeck() {
+		return deck;
+	}
 
-deck = new DeckOfCards();
-         dealerCards = new BlackjackHand();
-         userCards = new BlackjackHand();
+	public void setDeck(DeckOfCards deck) {
+		this.deck = deck;
+	}
 
+	public User getPlayer() {
+		return player;
+	}
 
-deck.shuffleDeck();
-          dealerCards.addCard( deck.dealCard() );
-          dealerCards.addCard( deck.dealCard() );
-          userCards.addCard( deck.dealCard() );
-          userCards.addCard( deck.dealCard() );
+	public void setPlayer(User player) {
+		this.player = player;
+	}
 
+	public Dealer getDealer() {
+		return dealer;
+	}
 
+	public void setDealer(Dealer dealer) {
+		this.dealer = dealer;
+	}
 
-
-return true;
+	public boolean isUserTurn() {
+		return userTurn;
+	}
 }
