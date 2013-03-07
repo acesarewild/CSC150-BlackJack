@@ -41,36 +41,6 @@ public class Dealer extends Player
 
 	}
 
-//	public boolean playGame()
-//	{
-//		DeckOfCards deck;
-////		BlackjackHand dealerCards;
-////		BlackjackHand userCards;
-//
-//		deck = new DeckOfCards();
-////		dealerCards = new BlackjackHand();
-////		userCards = new BlackjackHand();
-//
-//
-//		deck.shuffleDeck();
-//		dealerCards.addCard( deck.dealCard());
-//		dealerCards.addCard( deck.dealCard());
-//		userCards.addCard( deck.dealCard());
-//		userCards.addCard( deck.dealCard());
-//
-//		if (dealerCards.getBlackjackValue() == 21)
-//			return false;
-//
-//		if (userCards.getBlackjackValue() == 21)
-//			return true;
-//
-//
-//
-//
-//
-//		return true;
-//	}
-
 	private int findCardValue(String card)
 	{
 		//char value = card.charAt(1);
@@ -130,5 +100,19 @@ public class Dealer extends Player
 
 	public void setWallet(int wallet) {
 		this.wallet = wallet;
+	}
+	
+	public void softSeventeen()
+	{
+		if(getHandTotal(hand) >= 17)
+		{
+			for(int i = 0; i < hand.length; i++)
+			{
+				if(hand[i] == null)
+					break;
+				if(hand[i].startsWith("Ace"))
+					handTotal -= 10;
+			}
+		}
 	}
 }
