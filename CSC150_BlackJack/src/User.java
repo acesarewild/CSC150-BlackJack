@@ -70,6 +70,8 @@ public class User extends Player
 			else
 				handTotal += findCardValue(hand[i]);
 		}
+		
+		softBust();
 
 		return handTotal;
 	}
@@ -105,9 +107,9 @@ public class User extends Player
 	}
 	
 	
-	public void softBust()
+	private void softBust()
 	{
-		if(getHandTotal(hand) > 21)
+		if(handTotal > 21)
 		{
 			for(int i = 0; i < hand.length; i++)
 			{
@@ -117,5 +119,11 @@ public class User extends Player
 					handTotal -= 10;
 			}
 		}
+	}
+
+	public String[] getHand() 
+	{
+		// TODO Auto-generated method stub
+		return hand;
 	}
 }
