@@ -9,18 +9,18 @@ public class PANEL extends JPanel
 	public GamePlay game = new GamePlay();
 	
 	public Color boardC = new Color(60,163,63);
-	public DeckOfCards deck = new DeckOfCards();
+	//public DeckOfCards deck = new DeckOfCards();
     public int XD = 1000, YD = 700, betAmount = 0, potValue = 0, dealerIndex = 0, playerIndex = 0;
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
 	public JButton bet = new JButton("Bet"), increaseBet = new JButton("Increase Bet"), decreaseBet = new JButton("Decrease Bet"), deal = new JButton("Deal"), hit = new JButton("Hit"), stay = new JButton("Stay"), surrender = new JButton("Surrender");
-	public JLabel player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+game.dealer.wallet), playerValue = new JLabel("Player's Worth: "+game.player.wallet), pot = new JLabel("Current pot value of "+potValue);
+	public JLabel player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+game.getDealer().getWallet()), playerValue = new JLabel("Player's Worth: "+game.getPlayer().getWallet()), pot = new JLabel("Current pot value of "+potValue);
 	public final int MAX_POSSIBLE_HAND = 12;
 	public JLabel dealerCard[] = new JLabel[MAX_POSSIBLE_HAND], playerCard[] = new JLabel[MAX_POSSIBLE_HAND];
 	public Listener listener = new Listener();
 	
 	public PANEL()
 	{
-		deck.shuffleDeck();
+		//deck.shuffleDeck();
 		setLayout(null);
 		addGameItems();
 		setItemBounds();
@@ -139,44 +139,46 @@ public class PANEL extends JPanel
 	
 	private void updateValues()
 	{
-		playerValue.setText("Player's Worth: "+game.player.wallet);
-		dealerValue.setText("Dealer's Worth: "+game.dealer.wallet);
+		playerValue.setText("Player's Worth: "+game.getPlayer().getWallet());
+		dealerValue.setText("Dealer's Worth: "+game.getDealer().getWallet());
 		pot.setText("Current pot value of "+potValue);
 		betValue.setText("Bet: "+betAmount);
 	}
 	
 	private void setCards()
 	{
-		game.dealer.setHand(game.deck.dealCard());
-		game.dealer.setHand(game.deck.dealCard());
-		game.player.setHand(game.deck.dealCard());
-		game.player.setHand(game.deck.dealCard());
+		game.getDealer().setHand(game.getDeck().dealCard());
+		game.getDealer().setHand(game.getDeck().dealCard());
+		game.getPlayer().setHand(game.getDeck().dealCard());
+		game.getPlayer().setHand(game.getDeck().dealCard());
 	}
 	
 	private void dealCards()
 	{
-		dealerCard[dealerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.dealer.getHand(dealerIndex))));
+		dealerCard[dealerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg(game.getDealer().getHand(dealerIndex))));
 		dealerIndex++;
 		
-		dealerCard[dealerIndex].setIcon(new ImageIcon(game.deck.findCardImg("Back")));
+		dealerCard[dealerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg("Back")));
 		dealerIndex++;
 		
-		playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
+		playerCard[playerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg(game.getPlayer().getHand(playerIndex))));
 		playerIndex++;
 		
-		playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
+		playerCard[playerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg(game.getPlayer().getHand(playerIndex))));
 		playerIndex++;
 	}
 	
 	private void newGame()
 	{
-		game.deck = new DeckOfCards();
-		game.deck.shuffleDeck();
+		game.setDeck(new DeckOfCards());
+		game.getDeck().shuffleDeck();
 		playerIndex = 0;
 		dealerIndex = 0;
+		game.getPlayer().resetHand();
+		game.getDealer().resetHand();
 		enableGame(false);
 		deal.setEnabled(true);
-		game.dealer.wallet += potValue;
+		game.getDealer().setWallet(game.getDealer().getWallet() + potValue);
 		betAmount = 0;
 		potValue = 0;
 		updateValues();
@@ -188,22 +190,22 @@ public class PANEL extends JPanel
 		{
 			if(e.getSource() == increaseBet)
 			{
-				if(game.player.wallet > betAmount)
+				if(game.getPlayer().getWallet() > betAmount)
 					betAmount += 5;
 				betValue.setText("Bet: "+betAmount);
 			}
 			else if(e.getSource() == decreaseBet && betAmount >=1)
 			{
-				if(game.player.wallet > 0)
+				if(game.getPlayer().getWallet() > 0)
 					betAmount -= 5;
 				betValue.setText("Bet: "+betAmount);
 			}
-			else if(e.getSource() == bet && game.player.wallet >= betAmount && game.dealer.wallet >= betAmount)
+			else if(e.getSource() == bet && game.getPlayer().getWallet() >= betAmount && game.getDealer().getWallet() >= betAmount)
 			{
 				if(betAmount > 0)
 				{
-					game.player.wallet -= betAmount;
-					game.dealer.wallet -= betAmount;
+					game.getPlayer().setWallet(game.getPlayer().getWallet() - betAmount);
+					game.getDealer().setWallet(game.getDealer().getWallet() - betAmount);
 				}
 				potValue += betAmount*2;
 				betAmount = 0;
@@ -219,8 +221,8 @@ public class PANEL extends JPanel
 			}
 			else if(e.getSource() == hit && hit.isEnabled() && playerIndex <= playerCard.length-1)
 			{
-				game.player.setHand(game.deck.dealCard());
-				playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
+				game.getPlayer().setHand(game.getDeck().dealCard());
+				playerCard[playerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg(game.getPlayer().getHand(playerIndex))));
 				playerIndex++;
 			}
 			else if (e.getSource() == surrender)
