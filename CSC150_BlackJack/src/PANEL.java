@@ -131,19 +131,55 @@ public class PANEL extends JPanel
 		}
 	}
 	
-	public void enableGame(boolean g)//allows for buttons to be pressed when game has started
+	public void enableGame(boolean g)//allows for certain buttons to be enabled
 	{
 		hit.setEnabled(g);
-		bet.setEnabled(g);
-		increaseBet.setEnabled(g);
-		decreaseBet.setEnabled(g);
 		stay.setEnabled(g);
 	}
 	
-	public void setPlayersValues()
+	private void updateValues()
 	{
-		dealerValue.setText("Dealer's Worth: "+game.dealer.wallet);
 		playerValue.setText("Player's Worth: "+game.player.wallet);
+		dealerValue.setText("Dealer's Worth: "+game.dealer.wallet);
+		pot.setText("Current pot value of "+potValue);
+		betValue.setText("Bet: "+betAmount);
+	}
+	
+	private void setCards()
+	{
+		game.dealer.setHand(game.deck.dealCard());
+		game.dealer.setHand(game.deck.dealCard());
+		game.player.setHand(game.deck.dealCard());
+		game.player.setHand(game.deck.dealCard());
+	}
+	
+	private void dealCards()
+	{
+		dealerCard[dealerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.dealer.getHand(dealerIndex))));
+		dealerIndex++;
+		
+		dealerCard[dealerIndex].setIcon(new ImageIcon(game.deck.findCardImg("Back")));
+		dealerIndex++;
+		
+		playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
+		playerIndex++;
+		
+		playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
+		playerIndex++;
+	}
+	
+	private void newGame()
+	{
+		game.deck = new DeckOfCards();
+		game.deck.shuffleDeck();
+		playerIndex = 0;
+		dealerIndex = 0;
+		enableGame(false);
+		deal.setEnabled(true);
+		game.dealer.wallet += potValue;
+		betAmount = 0;
+		potValue = 0;
+		updateValues();
 	}
 	
 	private class Listener implements MouseListener//where the magic happens
@@ -162,33 +198,21 @@ public class PANEL extends JPanel
 					betAmount -= 5;
 				betValue.setText("Bet: "+betAmount);
 			}
-			else if(e.getSource() == bet && game.player.wallet >= betAmount)
+			else if(e.getSource() == bet && game.player.wallet >= betAmount && game.dealer.wallet >= betAmount)
 			{
 				if(betAmount > 0)
+				{
 					game.player.wallet -= betAmount;
-				potValue += betAmount;
-				setPlayersValues();
-				pot.setText("Current pot value of "+potValue);
+					game.dealer.wallet -= betAmount;
+				}
+				potValue += betAmount*2;
+				betAmount = 0;
+				updateValues();
 			}
 			else if(e.getSource() == deal && deal.isEnabled())
 			{
-				game.dealer.setHand(game.deck.dealCard());
-				game.dealer.setHand(game.deck.dealCard());
-				game.player.setHand(game.deck.dealCard());
-				game.player.setHand(game.deck.dealCard());
-				
-				dealerCard[dealerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.dealer.getHand(dealerIndex))));
-				dealerIndex++;
-				
-				dealerCard[dealerIndex].setIcon(new ImageIcon(game.deck.findCardImg("Back")));
-				dealerIndex++;
-				
-				playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
-				playerIndex++;
-				
-				playerCard[playerIndex].setIcon(new ImageIcon(game.deck.findCardImg(game.player.getHand(playerIndex))));
-				playerIndex++;
-				
+				setCards();
+				dealCards();
 				
 				enableGame(true);
 				deal.setEnabled(false);
@@ -209,15 +233,7 @@ public class PANEL extends JPanel
 				{
 					dealerCard[i].setIcon(new ImageIcon());
 				}
-				game = new GamePlay();
-				playerIndex = 0;
-				dealerIndex = 0;
-				enableGame(false);
-				deal.setEnabled(true);
-				betAmount = 0;
-				potValue = 0;
-				pot.setText("Current pot value of "+potValue);
-				betValue.setText("Bet: "+betAmount);
+				newGame();
 			}
 		}
 		public void mouseEntered(MouseEvent e) {}
@@ -226,4 +242,3 @@ public class PANEL extends JPanel
 		public void mouseReleased(MouseEvent e) {}
 	}
 }
-	
