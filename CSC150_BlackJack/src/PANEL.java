@@ -222,6 +222,9 @@ public class PANEL extends JPanel
 			{
 				setCards();
 				dealCards();
+				if(game.determineBlackjack(game.getPlayer().getHandTotal(game.getPlayer().getHand())))
+					System.out.println("BLACKJACK!");
+				game.determineBlackjack(game.getDealer().getHandTotal(game.getDealer().getHand()));
 				enableGame(true);
 				deal.setEnabled(false);
 				updateValues();
