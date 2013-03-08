@@ -8,7 +8,7 @@ public class PANEL extends JPanel
 {
 	public GamePlay game = new GamePlay();
 	public Color boardC = new Color(60,163,63);
-    public int XD = 1000, YD = 700, betAmount = 0, potValue = 0, dealerIndex = 0, playerIndex = 0, handTotal = 0, dealerHT = 0;
+    public int XD = 1000, YD = 700, betAmount = 0, potValue = 0, dealerIndex = 0, playerIndex = 0, handTotal = 0, dealerHT = 0, blackjack = 21, softDealer = 17;
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
 	public JButton newgame = new JButton("New Game"), bet = new JButton("Bet"), increaseBet = new JButton("Increase Bet"), decreaseBet = new JButton("Decrease Bet"), deal = new JButton("Deal"), hit = new JButton("Hit"), stay = new JButton("Stay"), newHand = new JButton("New Hand");
 	public JLabel handTest = new JLabel("Hand Value: "+handTotal), dHandTest = new JLabel("Dealer Hand Value: "+dealerHT), player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+game.getDealer().getWallet()), playerValue = new JLabel("Player's Worth: "+game.getPlayer().getWallet()), pot = new JLabel("Current pot value of "+potValue);
@@ -199,7 +199,7 @@ public class PANEL extends JPanel
 	
 	private void dealersTurn()//dealer's functionality
 	{
-		while(game.getDealer().getHandTotal(game.getDealer().getHand()) < 17)
+		while(game.getDealer().getHandTotal(game.getDealer().getHand()) < softDealer)
 		{
 			game.getDealer().setHand(game.getDeck().dealCard());
 			dealerCard[dealerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg("Back")));
@@ -213,27 +213,27 @@ public class PANEL extends JPanel
 		{
 			System.out.println("tie");
 		}
-		else if(game.getDealer().getHandTotal(game.getDealer().getHand()) > 21)
+		else if(game.getDealer().getHandTotal(game.getDealer().getHand()) > blackjack)
 		{
-			if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) <= 21)
+			if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) <= blackjack)
 				System.out.println("you win");
 		}
 		else if(game.getDealer().getHandTotal(game.getDealer().getHand()) > game.getPlayer().getHandTotal(game.getPlayer().getHand()))
 		{
-			if(game.getDealer().getHandTotal(game.getDealer().getHand()) <= 21)
+			if(game.getDealer().getHandTotal(game.getDealer().getHand()) <= blackjack)
 				System.out.println("you lost");
 		}
 	}
 	
 	private void checkHand()//checks the player's hand to see if they busted or got a blackjack
 	{
-		if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) > 21)
+		if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) > blackjack)
 		{
 			System.out.println("you busted");
 			enableGame(false);
 			deal.setEnabled(false);
 		}
-		else if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) == 21)
+		else if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) == blackjack)
 		{
 			System.out.println("you blackjacked");
 			enableGame(false);
