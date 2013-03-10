@@ -1,3 +1,5 @@
+import javax.swing.JFrame;
+
 
 public class Blackjack 
 {
@@ -7,13 +9,14 @@ public class Blackjack
 	 */
 	public static void main(String[] args) 
 	{
-		DeckOfCards deck = new DeckOfCards();
+		JFrame frame = new JFrame("BlackJack");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		deck.multipleCards(52);
-		deck.numberLeft();
-		System.out.println(deck.dealDeckImg());
+		frame.getContentPane().add(new PANEL());
 		
-		System.out.println(deck.findCardImg("10Hearts"));
+		frame.pack();
+		frame.setVisible(true);
+		frame.setResizable(false);
 	}
 
 }

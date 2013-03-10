@@ -1,28 +1,75 @@
 
-public class GamePlay 
+public class GamePlay
 {
-	public boolean userWins;
-	
-	public boolean playGame()
+	private boolean userTurn;
+	private DeckOfCards deck;
+	private User player;
+	private Dealer dealer;
+	private final int WIN = 21;
+
+	public GamePlay()
 	{
-		DeckOfCards deck;
-		BlackjackHand dealerCards;
-		BlackjackHand userCards;
-		
-		 deck = new DeckOfCards();
-         dealerCards = new BlackjackHand();
-         userCards = new BlackjackHand();
-		
-		
-		  deck.shuffleDeck();
-          dealerCards.addCard( deck.dealCard() );
-          dealerCards.addCard( deck.dealCard() );
-          userCards.addCard( deck.dealCard() );
-          userCards.addCard( deck.dealCard() );
-		
-		
-		
-		
-		return true;
+		player = new User();
+		dealer = new Dealer();
+		deck = new DeckOfCards();
+		deck.shuffleDeck();
+		userTurn = true;
 	}
+
+	public DeckOfCards getDeck() 
+	{
+		return deck;
+	}
+
+	public void setDeck(DeckOfCards deck) 
+	{
+		this.deck = deck;
+	}
+
+	public User getPlayer() 
+	{
+		return player;
+	}
+
+	public void setPlayer(User player) 
+	{
+		this.player = player;
+	}
+
+	public Dealer getDealer() 
+	{
+		return dealer;
+	}
+
+	public void setDealer(Dealer dealer) 
+	{
+		this.dealer = dealer;
+	}
+
+	public boolean isUserTurn() 
+	{
+		return userTurn;
+	}
+	
+	public void endTurn() 
+	{
+		userTurn = false;
+	}
+
+	public boolean determineWinner(int playerTotal, int dealerTotal)
+	{
+		if((WIN-playerTotal) < (WIN-dealerTotal))
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean determineBlackjack(int handTotal)
+	{
+		if(handTotal == WIN)
+			return true;
+		else
+			return false;
+	}
+
 }
