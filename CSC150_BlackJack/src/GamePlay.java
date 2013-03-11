@@ -5,7 +5,7 @@ public class GamePlay
 	private DeckOfCards deck;
 	private User player;
 	private Dealer dealer;
-	private final int WIN = 21;
+	private final int BLACKJACK = 21;
 
 	public GamePlay()
 	{
@@ -56,17 +56,35 @@ public class GamePlay
 		userTurn = false;
 	}
 
-	public boolean determineWinner(int playerTotal, int dealerTotal)
+	public boolean determinePush(int playerTotal, int dealerTotal)
 	{
-		if((WIN-playerTotal) < (WIN-dealerTotal))
+		if((BLACKJACK-playerTotal) == (BLACKJACK-dealerTotal))
 			return true;
 		else
 			return false;
 	}
 	
-	public boolean determineBlackjack(int handTotal)
+	public boolean determineWinner(int playerTotal, int dealerTotal)
 	{
-		if(handTotal == WIN)
+		if((BLACKJACK-playerTotal) < (BLACKJACK-dealerTotal))
+			return true;
+		if(dealerTotal > BLACKJACK)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isBlackjack(int handTotal)
+	{
+		if(handTotal == BLACKJACK)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isBust(int handTotal)
+	{
+		if(handTotal > BLACKJACK)
 			return true;
 		else
 			return false;
