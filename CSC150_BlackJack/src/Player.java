@@ -5,8 +5,7 @@
 public abstract class Player
 {
 public int wallet;
-public int bet;	
+public int bet;  
 public String name;
-public abstract int betting();
 public abstract int getHandTotal(String[] hand);
 }
