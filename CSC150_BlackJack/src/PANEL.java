@@ -173,8 +173,21 @@ public class PANEL extends JPanel
 		playerIndex++;
 	}
 	
+	private void clearCards()//clears the current card images from the board
+	{
+		for(int i = 0; i<playerCard.length; i++)
+		{
+			playerCard[i].setIcon(new ImageIcon());
+		}
+		for(int i = 0; i<dealerCard.length; i++)
+		{
+			dealerCard[i].setIcon(new ImageIcon());
+		}
+	}
+	
 	private void newHand()//sets the board up for another round/new hand
 	{
+		clearCards();
 		game.setDeck(new DeckOfCards());
 		game.getDeck().shuffleDeck();
 		playerIndex = 0;
@@ -197,13 +210,14 @@ public class PANEL extends JPanel
 		dHandTest.setText("Dealer Hand Value: "+dealerHT);
 	}
 	
-	private void dealersTurn()//dealer's functionality
+	private void dealersTurn()//dealer's functionality, it is recursive
 	{
-		while(game.getDealer().getHandTotal(game.getDealer().getHand()) < softDealer)
+		if(game.getDealer().getHandTotal(game.getDealer().getHand()) < softDealer)
 		{
 			game.getDealer().setHand(game.getDeck().dealCard());
 			dealerCard[dealerIndex].setIcon(new ImageIcon(game.getDeck().findCardImg("Back")));
 			dealerIndex++;
+			dealersTurn();
 		}
 	}
 	
@@ -225,8 +239,14 @@ public class PANEL extends JPanel
 		}
 	}
 	
-	private void checkHand()//checks the player's hand to see if they busted or got a blackjack
+	private void checkHand()//checks the dealer and player's hand to see if they got a blackjack, and if the player busted
 	{
+		if(game.getDealer().getHandTotal(game.getDealer().getHand()) == blackjack)
+		{
+			System.out.println("Dealer blackjacked");
+			enableGame(false);
+			deal.setEnabled(false);
+		}
 		if(game.getPlayer().getHandTotal(game.getPlayer().getHand()) > blackjack)
 		{
 			System.out.println("you busted");
@@ -329,14 +349,6 @@ public class PANEL extends JPanel
 			 */
 			else if (e.getSource() == newHand)
 			{
-				for(int i = 0; i<playerCard.length; i++)
-				{
-					playerCard[i].setIcon(new ImageIcon());
-				}
-				for(int i = 0; i<dealerCard.length; i++)
-				{
-					dealerCard[i].setIcon(new ImageIcon());
-				}
 				newHand();
 			}
 			
