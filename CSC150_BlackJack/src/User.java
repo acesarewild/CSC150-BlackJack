@@ -7,7 +7,7 @@ public class User extends Player
 {	
 	public boolean userWins;
 	private int handTotal = 0, numOfCards = 0;
-	private int wallet = 100;
+	private double wallet = 100;
 	private String[] hand;
 
 	public User()
@@ -20,30 +20,8 @@ public class User extends Player
 
 	}
 
-	@Override
-	public int betting()
-	{
-		while( bet < 0 || bet > getWallet())
-		{
-			if(bet==0)
-				break;
-//			userWins=playGame();
-			if(userWins)
-				setWallet(getWallet() + bet);
-			else
-				setWallet(getWallet() - bet);
-			if(getWallet() == 0)
-				System.out.println(" Your out of money, better luck next time!");
-			break;				
-		}
-
-		return getWallet();
-
-	}
-
 	private int findCardValue(String card)
 	{
-		//char value = card.charAt(1);
 		String value = card.substring(0,2);
 
 		if(value.startsWith("10") || value.startsWith("J") || value.startsWith("Q") || value.startsWith("K"))
@@ -96,14 +74,19 @@ public class User extends Player
 		numOfCards = 0;
 	}
 
-	public int getWallet() 
+	public double getWallet() 
 	{
 		return wallet;
 	}
 
-	public void setWallet(int wallet) 
+	public void setWallet(double wallet) 
 	{
 		this.wallet = wallet;
+	}
+	
+	public void addWallet(double w)
+	{
+		this.wallet += w;
 	}
 	
 	
