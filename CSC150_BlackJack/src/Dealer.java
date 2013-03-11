@@ -7,7 +7,7 @@ public class Dealer extends Player
 {	
 	public boolean userWins;
 	private int handTotal = 0, numOfCards = 0;
-	private int wallet = 1000;
+	private double wallet = 500;
 	private String[] hand;
 
 	public Dealer()
@@ -20,30 +20,8 @@ public class Dealer extends Player
 
 	}
 
-	@Override
-	public int betting()
-	{
-		while( bet < 0 || bet > getWallet())
-		{
-			if(bet==0)
-				break;
-//			userWins=playGame();
-			if(userWins)
-				setWallet(getWallet() + bet);
-			else
-				setWallet(getWallet() - bet);
-			if(getWallet() == 0)
-				System.out.println(" Your out of money, better luck next time!");
-			break;				
-		}
-
-		return getWallet();
-
-	}
-
 	private int findCardValue(String card)
 	{
-		//char value = card.charAt(1);
 		String value = card.substring(0,2);
 
 		if(value.startsWith("10") || value.startsWith("J") || value.startsWith("Q") || value.startsWith("K"))
@@ -70,6 +48,8 @@ public class Dealer extends Player
 			else
 				handTotal += findCardValue(hand[i]);
 		}
+		
+		softBust();
 		return handTotal;
 	}
 
@@ -86,34 +66,55 @@ public class Dealer extends Player
 	{
 		return hand[i];
 	}
-	
+
 	public void resetHand()
 	{
 		hand = new String[12];
 		numOfCards = 0;
 	}
 
-	public int getWallet() {
+	public double getWallet() {
 		return wallet;
 	}
 
-	public void setWallet(int wallet) {
+	public void setWallet(double wallet) {
 		this.wallet = wallet;
 	}
 	
-//	private void softSeventeen()
-//	{
-//		if(this.getHandTotal(hand) >= 17)
-//		{
-//			for(int i = 0; i < hand.length; i++)
-//			{
-//				if(hand[i] == null)
-//					break;
-//				if(hand[i].startsWith("Ace"))
-//					handTotal -= 10;
-//			}
-//		}
-//	}
+	public void addWallet(double w)
+	{
+		this.wallet += w;
+	}
+
+	public boolean isSoftSeventeen()
+	{
+		if(this.getHandTotal(hand) >= 17)
+		{
+			for(int i = 0; i < hand.length; i++)
+			{
+				if(hand[i] == null)
+					break;
+				if(hand[i].startsWith("Ace"))
+					return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private void softBust()
+	{
+		if(handTotal > 21)
+		{
+			for(int i = 0; i < hand.length; i++)
+			{
+				if(hand[i] == null)
+					break;
+				if(hand[i].startsWith("Ace"))
+					handTotal -= 10;
+			}
+		}
+	}
 
 	public String[] getHand() 
 	{
