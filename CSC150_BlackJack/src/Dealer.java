@@ -27,7 +27,7 @@ public class Dealer extends Player
 		{
 			if(bet==0)
 				break;
-//			userWins=playGame();
+			//			userWins=playGame();
 			if(userWins)
 				setWallet(getWallet() + bet);
 			else
@@ -43,7 +43,6 @@ public class Dealer extends Player
 
 	private int findCardValue(String card)
 	{
-		//char value = card.charAt(1);
 		String value = card.substring(0,2);
 
 		if(value.startsWith("10") || value.startsWith("J") || value.startsWith("Q") || value.startsWith("K"))
@@ -70,6 +69,8 @@ public class Dealer extends Player
 			else
 				handTotal += findCardValue(hand[i]);
 		}
+		
+		softBust();
 		return handTotal;
 	}
 
@@ -86,7 +87,7 @@ public class Dealer extends Player
 	{
 		return hand[i];
 	}
-	
+
 	public void resetHand()
 	{
 		hand = new String[12];
@@ -100,20 +101,36 @@ public class Dealer extends Player
 	public void setWallet(int wallet) {
 		this.wallet = wallet;
 	}
+
+	public boolean isSoftSeventeen()
+	{
+		if(this.getHandTotal(hand) >= 17)
+		{
+			for(int i = 0; i < hand.length; i++)
+			{
+				if(hand[i] == null)
+					break;
+				if(hand[i].startsWith("Ace"))
+					return true;
+			}
+		}
+		
+		return false;
+	}
 	
-//	private void softSeventeen()
-//	{
-//		if(this.getHandTotal(hand) >= 17)
-//		{
-//			for(int i = 0; i < hand.length; i++)
-//			{
-//				if(hand[i] == null)
-//					break;
-//				if(hand[i].startsWith("Ace"))
-//					handTotal -= 10;
-//			}
-//		}
-//	}
+	private void softBust()
+	{
+		if(handTotal > 21)
+		{
+			for(int i = 0; i < hand.length; i++)
+			{
+				if(hand[i] == null)
+					break;
+				if(hand[i].startsWith("Ace"))
+					handTotal -= 10;
+			}
+		}
+	}
 
 	public String[] getHand() 
 	{

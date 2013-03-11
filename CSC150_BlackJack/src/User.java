@@ -43,7 +43,6 @@ public class User extends Player
 
 	private int findCardValue(String card)
 	{
-		//char value = card.charAt(1);
 		String value = card.substring(0,2);
 
 		if(value.startsWith("10") || value.startsWith("J") || value.startsWith("Q") || value.startsWith("K"))
