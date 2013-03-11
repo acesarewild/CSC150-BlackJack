@@ -1,6 +1,10 @@
 import javax.swing.JFrame;
 
-
+/**
+ * 
+ * @author jadams
+ *
+ */
 public class Blackjack 
 {
 
