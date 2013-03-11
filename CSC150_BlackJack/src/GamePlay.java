@@ -64,11 +64,21 @@ public class GamePlay
 			return false;
 	}
 	
-	public boolean determineWinner(int playerTotal, int dealerTotal)
+	public boolean isPlayerWinner(int playerTotal, int dealerTotal)
 	{
 		if((BLACKJACK-playerTotal) < (BLACKJACK-dealerTotal))
 			return true;
-		if(dealerTotal > BLACKJACK)
+		if(isBust(dealerTotal) && !isBust(playerTotal))
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean isDealerWinner(int playerTotal, int dealerTotal)
+	{
+		if((BLACKJACK-playerTotal) > (BLACKJACK-dealerTotal))
+			return true;
+		if(isBust(playerTotal) && !isBust(dealerTotal))
 			return true;
 		else
 			return false;
@@ -89,5 +99,4 @@ public class GamePlay
 		else
 			return false;
 	}
-
 }
