@@ -5,21 +5,24 @@
  */
 public class Dealer extends Player
 {	
-	public boolean userWins;
 	private int handTotal = 0, numOfCards = 0;
-	private double wallet = 500;
+	private double wallet = 500; //shadow variable
 	private String[] hand;
+	private final int MAX_HAND = 12;
 
+	//constructor
 	public Dealer()
 	{
 		hand = new String[12];
 	}
 
+	//overloaded constructor
 	public Dealer(String name)
 	{
-
+		this.name = name;
 	}
 
+	//finds the values of the cards
 	private int findCardValue(String card)
 	{
 		String value = card.substring(0,2);
@@ -36,6 +39,7 @@ public class Dealer extends Player
 		}
 	}
 
+	//gets the hand total
 	@Override
 	public int getHandTotal(String[] hand) 
 	{
@@ -53,6 +57,7 @@ public class Dealer extends Player
 		return handTotal;
 	}
 
+	//setter for the hand
 	public void setHand(String card)
 	{
 		if(numOfCards != hand.length)
@@ -62,30 +67,36 @@ public class Dealer extends Player
 		}
 	}
 
+	//gets the hand at a certain index
 	public String getHand(int i) 
 	{
 		return hand[i];
 	}
 
+	//resets the hand to an empty array
 	public void resetHand()
 	{
 		hand = new String[12];
 		numOfCards = 0;
 	}
 
+	//gets the dealers wallet
 	public double getWallet() {
 		return wallet;
 	}
 
+	//sets the dealers wallet
 	public void setWallet(double wallet) {
 		this.wallet = wallet;
 	}
 	
+	//adds to the dealers wallet
 	public void addWallet(double w)
 	{
 		this.wallet += w;
 	}
 
+	//checks to see if the dealer has a soft seventeen
 	public boolean isSoftSeventeen()
 	{
 		if(this.getHandTotal(hand) >= 17)
@@ -102,6 +113,7 @@ public class Dealer extends Player
 		return false;
 	}
 	
+	//accounts for a soft bust(going over 21 but having an ace)
 	private void softBust()
 	{
 		if(handTotal > 21)
@@ -116,6 +128,7 @@ public class Dealer extends Player
 		}
 	}
 
+	//gets the dealers hand
 	public String[] getHand() 
 	{
 		return hand;

@@ -16,7 +16,7 @@ public class Blackjack
 		JFrame frame = new JFrame("BlackJack");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.getContentPane().add(new PANEL());
+		frame.getContentPane().add(new Panel());
 		
 		frame.pack();
 		frame.setVisible(true);
