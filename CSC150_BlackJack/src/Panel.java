@@ -4,7 +4,7 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
-public class PANEL extends JPanel
+public class Panel extends JPanel
 {
 	public GamePlay game = new GamePlay();
 	public Color boardC = new Color(60,163,63);
@@ -16,7 +16,7 @@ public class PANEL extends JPanel
 	public JLabel dealerCard[] = new JLabel[MAX_POSSIBLE_HAND], playerCard[] = new JLabel[MAX_POSSIBLE_HAND];
 	public Listener listener = new Listener();
 
-	public PANEL()
+	public Panel()
 	{
 		setLayout(null);
 		addGameItems();
