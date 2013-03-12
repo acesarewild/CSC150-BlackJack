@@ -8,7 +8,8 @@ public class Panel extends JPanel
 {
 	public GamePlay game = new GamePlay();
 	public Color boardC = new Color(60,163,63);
-	public int bjwin = 50, turn = 0, XD = 1000, YD = 700, betAmount = 0, potValue = 0, dealerIndex = 0, playerIndex = 0, handTotal = 0, dealerHT = 0, blackjack = 21, softDealer = 17;
+	public double bjwin = 1.5;
+	public int turn = 0, XD = 1000, YD = 700, betAmount = 0, potValue = 0, dealerIndex = 0, playerIndex = 0, handTotal = 0, dealerHT = 0, blackjack = 21, softDealer = 17;
 	public int cardWidth = 72, cardHeight = 96, centerX = XD/2-20, playersX = centerX-50, farLeftCenterX = XD/2-120, itemHeight = 20, playersButtonWidth = 60, averageButtonWidth = 70, sButtonWidth = 100, biggerButtonWidth = 120, valueButtonWidth = 225, bottomButton = YD-20, aboveBottomButton = bottomButton-30, aboveAboveBottomButton = bottomButton-60;
 	public JButton newgame = new JButton("New Game"), bet = new JButton("Bet"), increaseBet = new JButton("Increase Bet"), decreaseBet = new JButton("Decrease Bet"), deal = new JButton("Deal"), hit = new JButton("Hit"), stay = new JButton("Stay"), newHand = new JButton("New Hand");
 	public JLabel handTest = new JLabel("Hand Value: "+handTotal), /*dHandTest = new JLabel("Dealer Hand Value: "+dealerHT),*/ player = new JLabel("Player"), comp1 = new JLabel("Computer"), comp2 = new JLabel("Computer"), dealer = new JLabel("Dealer"), betValue = new JLabel("Bet: "+betAmount), dealerValue = new JLabel("Dealer's Worth: "+game.getDealer().getWallet()), playerValue = new JLabel("Player's Worth: "+game.getPlayer().getWallet()), pot = new JLabel("Current pot value of "+potValue);
@@ -274,8 +275,8 @@ public class Panel extends JPanel
 			if(turn == 1)
 			{
 				JOptionPane.showMessageDialog(null, "You Blackjacked!");
-				game.getPlayer().addWallet(bjwin+potValue);
-				game.getDealer().setWallet(game.getDealer().getWallet() - bjwin);
+				game.getPlayer().addWallet(bjwin*potValue);
+				game.getDealer().setWallet(game.getDealer().getWallet() - (potValue/2));
 			}
 			else
 			{
